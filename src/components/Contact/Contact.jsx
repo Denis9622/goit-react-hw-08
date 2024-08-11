@@ -1,20 +1,37 @@
-import css from './Contact.module.css';
+import { useDispatch } from 'react-redux';
+import { deleteContact } from '../../redux/contacts/operations';
 
-export default function Contact({ data: { id, name, number }, onDelete }) {
+import { MdPhoneIphone } from 'react-icons/md';
+import { BiSolidContact } from 'react-icons/bi';
+import PropTypes from 'prop-types';
+import styles from './Contact.module.css';
+
+function Contact({ name, number, id }) {
+  const dispatch = useDispatch();
+  const onDelete = () => dispatch(deleteContact(id));
+
   return (
-    <div className={css.container}>
-      <div className={css.info}>
-        <p>{name}</p>
-        <p>{number}</p>
-      </div>
-      <button
-        type="button"
-        onClick={() => {
-          onDelete(id);
-        }}
-      >
+    <li className={styles.contactStyle}>
+      <ul>
+        <li>
+          <BiSolidContact />
+          <p>Name: {name}</p>
+        </li>
+        <li>
+          <MdPhoneIphone />
+          <p>Number: {number}</p>
+        </li>
+      </ul>
+      <button className={styles.deleteButton} onClick={() => onDelete()}>
         Delete
       </button>
-    </div>
+    </li>
   );
 }
+Contact.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
+};
+
+export default Contact;

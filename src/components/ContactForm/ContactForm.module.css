@@ -1,23 +1,46 @@
 .form {
-  width: 300px;
-  padding: 10px;
+  background-color: black;
+  color: gold;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  border: 1px solid black;
+  justify-content: space-between;
 }
 
-.formField {
-  display: flex;
-  flex-direction: column;
-}
-.button {
-  display: block;
-  margin: 0 auto;
-  width: 100px;
+.label {
+  margin-bottom: 5px;
 }
 
-.error {
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ffd700;
+  border-radius: 5px;
+  background-color: black;
+  color: gold;
+}
+
+.errorMessage {
   color: red;
+}
+
+.button {
+  background-color: #000;
+  color: #cfb51e; /* золотий колір */
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #333;
 }

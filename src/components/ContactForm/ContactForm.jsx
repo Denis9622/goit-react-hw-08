@@ -1,55 +1,78 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import css from './ContactForm.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import iziToast from 'izitoast';
+import { useId } from 'react';
+import { selectContacts } from '../../redux/contacts/selectors';
+import { addContact } from '../../redux/contacts/operations';
+import 'izitoast/dist/css/iziToast.min.css';
+import styles from './ContactForm.module.css';
 
+const ContactForm = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
+  const nameFieldId = useId();
+  const numberFieldId = useId();
 
-const UserSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(3, 'Too short')
-    .max(50, 'Too long')
-    .required('Required'),
-  number: Yup.string()
-    .min(3, 'Too short')
-    .max(50, 'Too long')
-    .matches(
-      /^\d{3}-\d{2}-\d{2}$/,
-      'Phone number must be in the format: 123-45-67'
-    )
-    .required('Required'),
-});
+  const submitHandler = ({ name, number }, { resetForm }) => {
+    const correctName = name.trim();
 
-export default function ContactForm({ onAdd }) {
-  const handleSubmit = (values, actions) => {
-    onAdd(values);
-    actions.resetForm();
+    if (contacts.some(contact => contact.name === correctName)) {
+      iziToast.error({
+        title: 'Error',
+        message: `${correctName} is already in contact!`,
+        position: 'topLeft',
+      });
+      return;
+    }
+
+    dispatch(addContact({ name: correctName, number: number }));
+    resetForm();
   };
 
   return (
     <Formik
-      initialValues={{
-        name: '',
-        number: '',
-      }}
-      validationSchema={UserSchema}
-      onSubmit={handleSubmit}
+      initialValues={{ name: '', number: '' }}
+      validationSchema={Yup.object({
+        name: Yup.string()
+          .min(3, 'Must be at least 3 characters')
+          .max(50, 'Must be 50 characters or less')
+          .required('Required'),
+        number: Yup.string()
+          .matches(/^[0-9]+$/, 'Must be only digits')
+          .min(3, 'Must be at least 3 characters')
+          .max(50, 'Must be 50 characters or less')
+          .required('Required'),
+      })}
+      onSubmit={submitHandler}
     >
-      <Form className={css.form}>
-        <div className={css.formField}>
-          <label>Name</label>
-          <Field type="text" name="name" />
-          <ErrorMessage className={css.error} name="name" component="span" />
+      <Form className={styles.form}>
+        <div className={styles.inputContainer}>
+          <label htmlFor={nameFieldId}>Name</label>
+          <Field type="text" name="name" id={nameFieldId} />
+          <ErrorMessage
+            className={styles.errorMessage}
+            name="name"
+            component="span"
+          />
         </div>
 
-        <div className={css.formField}>
-          <label>Number</label>
-          <Field type="tel" name="number" />
-          <ErrorMessage className={css.error} name="number" component="span" />
+        <div className={styles.inputContainer}>
+          <label htmlFor={numberFieldId}>Number</label>
+          <Field type="tel" name="number" id={numberFieldId} />
+          <ErrorMessage
+            className={styles.errorMessage}
+            name="number"
+            component="span"
+          />
         </div>
 
-        <button className={css.button} type="submit">
-          Submit
+        <button className={styles.button} type="submit">
+          Add contact
         </button>
       </Form>
     </Formik>
   );
-}
+};
+
+export default ContactForm;

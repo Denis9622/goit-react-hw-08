@@ -1,12 +1,43 @@
-.container {
-  display: flex;
-  justify-content: space-between;
-  width: 200px;
-  padding: 10px;
-  border: 1px solid black;
+.contactStyle {
+  list-style: none;
+  padding: 20px;
+  border: 1px solid #000;
+  background-color: #000;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
-.info {
+
+.contactStyle ul {
+  padding: 0;
+  margin: 0;
+}
+
+.contactStyle ul li {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  align-items: center;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+.contactStyle ul li svg {
+  margin-right: 10px;
+  font-size: 20px;
+  color: #cfb51e;
+}
+
+.contactStyle ul li p {
+  margin: 0;
+}
+
+.deleteButton {
+  background-color: #000;
+  color: #cfb51e;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.deleteButton:hover {
+  background-color: #333;
 }
