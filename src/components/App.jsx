@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { refresh } from '../redux/store';
+import { refresh } from '../redux/auth/operations';
 import Layout from './Layout';
 import Loader from './loader/Loader';
 import RestrictedRoute from './RestrictedRoute';
